@@ -1,0 +1,54 @@
+<style>
+    .vertical-center{
+        margin-top: 8%;
+    }
+</style>
+<body>
+    <div class="jumbotron vertical-center container">
+        <h1>Git Repo Clone</h1>
+        <form id="cloneform">
+            <div class="form-group">
+              <label for="git-user">Git Username</label>
+              <input type="text" class="form-control" id="git-user" placeholder="Enter git username">
+            </div>
+            <div class="form-group">
+              <label for="accesstoken">Accesstoken</label>
+              <input type="text" class="form-control" aria-describedby="" id="accesstoken" placeholder="paste your access token">
+            </div>
+            <div class="form-group">
+                <label for="repo">Repository</label>
+                <input type="text" class="form-control" id="repo" placeholder="Paste your repo">
+              </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </form>
+    </div>
+</body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+<script>
+ $('#submit').on('click',function(){
+   var array=('#cloneform').serializeArray();
+   var form_data = new FormData();
+      $(datas).each(function (index, obj) {
+        if (obj.value != '') {
+            form_data.append(obj.name, obj.value);
+          }
+
+
+    })
+    $.ajax({
+      url:"clone2",
+      type:"POST",
+      dataType:'json',
+      data:form_data,
+      success:function(data){
+        if(data=="success"){
+          alert('cloned successfully');
+        }
+        else{
+          alert('clone failed');
+        }
+      }
+    })
+ })
+</script>

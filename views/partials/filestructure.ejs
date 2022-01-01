@@ -1,0 +1,94 @@
+<head>
+    <style type="text/css" media="screen">
+        .editor {
+            position: relative;
+            width: 100%;
+            height:100%;
+            font-size: medium;
+        }
+        .demo{
+            overflow:auto;
+        }
+        .greencolor{
+            color:blue;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css" />
+    <link type="stylesheet" href="/dist/themes/default/style.min.css" />
+</head>
+
+<body>
+    <div class="row">
+        <div class="col-md-3 filecontainer">
+            <div id="file" class="demo"></div>  
+        </div>
+        <div class="col-md-9">
+            <div class="container-fluid editor" id="editor"></div>
+        </div>
+    </div>
+</body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.8/ace.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"
+    integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg=="
+    crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.12/jstree.min.js"
+    integrity="sha512-TGClBy3S4qrWJtzel4qMtXsmM0Y9cap6QwRm3zo1MpVjvIURa90YYz5weeh6nvDGKZf/x3hrl1zzHW/uygftKg=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jqtree/1.6.2/tree.jquery.js"
+    integrity="sha512-3BlJ95ZSUJr/PrDyIS6jXnQn2rkBbscFAwPlwPJYFwpWLHWc9kwRZ0sQOtvPLLXvzbvh/ghFWRSmyhYB0nmj0A=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+    $('#file').jstree({
+        "plugins" : [ "types",'themes',"html_data","dnd"],
+        "types" : {
+            "default" : {
+                "icon" : "fa fa-folder text-warning"
+            },
+            "file" : {
+                "icon" : "fa fa-file greencolor"
+            }
+        },
+        'core': {
+            "check_callback" : true,
+            'themes': {
+                'dots': false,
+                'icons': true,
+                "responsive": false
+             },
+            'data': {
+                'url': "tree1",
+                'type': 'GET',
+                'dataType': 'JSON',
+                'contentType':'application/json',
+                'data': function (data) {
+                    return {data};
+                },
+            }
+        }
+    });
+    var editor = ace.edit("editor");
+    editor.setTheme("ace/theme/terminal");
+    $('#file').on("select_node.jstree", function (e, data) {
+        str=data.node.id
+        ext=data.node.text
+        var test = ext.match(/(.+)\.(.+)/);
+        str=str.replace(/[\/\\]/g,'^');
+        if(test[2]!=""){
+            editor.getSession().setMode("ace/mode/"+test[2]);
+            console.log("ace/mode/"+test[2])
+        }
+        else{
+            editor.getSession().setMode("ace/mode/python");
+        }
+        $.ajax({
+            type: 'GET',
+            url: 'fileread/'+str,                      
+            success: function(data) {
+                console.log('success');
+                editor.setValue(data)
+            }
+        });
+    });
+</script>

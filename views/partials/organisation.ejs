@@ -1,0 +1,258 @@
+<head>
+<style>
+    #organizationcard{
+        margin-left:5%;
+        margin-right:5%;
+        margin-top: 5%;
+    }
+    #tablecard{
+        margin-left:5%;
+        margin-right:5%;
+        margin-top: 5%;
+    }
+</style>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
+</head>
+<body>  <div class="row">
+         <div class="col-2 col-md-2" style="border: 2px solid black;height:850px;padding:0%">
+          <div class="text-center" id="adminuser" style="padding:10%;background-color:beige">
+            Admin User
+          </div>
+          <div class="text-center" id="tablelist" style="padding:10%;display:none;background-color:beige">
+            Orgnization list
+          </div>
+         </div>
+         <div class="col-10"> 
+            <div class="card" id="organizationcard" style="display: none;">
+
+                <div class="card-header ">Organization Creation<i class="fa fa-times float-right editclose" id ="editclose" aria-hidden="true" style="font-size:30px;color:red;">
+          
+                </i></a></div>
+                <div class="card-body">
+                <form id="organizationform">
+                  <div class="row">
+                  <div class="col-md-6 col-sm-12 col-lg-6">
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                      <div class="form-group">
+                        <label for="orgname">Organization Name</label>
+                             <input type="text" class="form-control" id="orgname" name="Organizationname" placeholder="Enter name"> 
+                      </div>
+                    </div>
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                      <div class="form-group">
+                        <label for="city">City</label>
+                        <input type="text" class="form-control" id="city" name="city" placeholder="Enter city">
+                      </div>
+                    </div>
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                        <div class="form-group">
+                          <label for="state">State</label>
+                          <input type="text" class="form-control" id="state" name="state" placeholder="Enter State">
+                        </div>
+                      </div>
+                      <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                      <button type="button" id="submit" class="btn btn-primary">Submit</button>
+                    </div>
+                </div>
+                  <div class="col-md-6 col-sm-12 col-lg-6">
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                      <div class="form-group">
+                        <label for="address">Address</label>
+                             <input type="text" class="form-control" id="address" name="address" placeholder="Enter address"> 
+                      </div>
+                    </div>
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                      <div class="form-group">
+                        <label for="userlimit">Userlimit</label>
+                        <input type="text" class="form-control" id="userlimit" name="userlimit" placeholder="Enter userlimit">
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                    </div>
+                      </div>
+        </div>
+    </form>
+    </div>
+    </div>
+    <div class="card" id="tablecard">
+      <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+      <button class="text-center btn btn-primary pull-right" id="create" style="margin-bottom:2%;">
+        Create Organization
+      </button>
+      </div>
+      <div class="card-header ">Organization list
+
+      </i></a></div>
+      <div class="card-body">
+            <div class="col-md-12 col-sm-12 col-lg-12">
+            <div id="organizationtable" style="border: 2px solid white;">
+                <table class="display responsive table-striped table-bordered table-xs text-center" cellspacing="0"
+                       style="width:100%;" id="orgtbl">
+                    <thead class="thead-dark bg-color">
+                    <tr class="text-center" style="color:white;background-color:blue;">
+                      <th scope="col">id</th>
+                        <th scope="col">Organization Name</th>
+                        <th scope="col">City</th>
+                        <th scope="col">State</th>
+                        <th scope="col">userlimit</th>
+                        <th scope="col">Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+      </div>
+
+    </div>
+    </div>
+    </div>
+  </div>
+</body>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.js"></script>
+<script>
+  $(document).ready(function(){
+    orgRetrive();
+  })
+  $('#create').on('click',function(){
+    $('#tablecard').hide();
+    $('#organizationcard').show();
+    $('#tablelist').show();
+    $('#create').hide();
+  })
+  $('#tablelist').on('click',function(){
+    $('#tablecard').show();
+    $('#organizationcard').hide();
+    $('#create').show();
+    $('#tablelist').hide();
+    orgRetrive();
+  })
+  $('#editclose').on('click',function(){
+    $('#tablecard').show();
+    $('#organizationcard').hide();
+    $('#create').show();
+    $('#tablelist').hide();
+  })
+  $('#submit').on('click',function(){
+    var form_data = $("#organizationform").serializeArray();
+    console.log(form_data);
+    $.ajaxSetup({
+      beforeSend: function (xhr, settings) {
+          if (!/^(GET|HEAD|OPTIONS|TRACE)$/i.test(settings.type) && !this.crossDomain) {
+              xhr.setRequestHeader("X-CSRFToken", form_data._csrf)
+          }
+      }
+    });
+    baseurls = "orgreg"
+    $.ajax({
+        url: baseurls,
+        type: 'post',
+        dataType:'json',
+        data:form_data,
+        success: function (response) {
+            alert('orgcreated successfully')
+            $('#tablecard').show();
+            $('#organizationcard').hide();
+            $('#create').show();
+            $('#tablelist').hide(); 
+            orgRetrive(); 
+        }
+        });
+})
+    function orgRetrive(){
+        $('#organizationtable').show();
+        $.ajaxSetup({
+                beforeSend: function (xhr, settings) {
+                    if (!/^(GET|HEAD|OPTIONS|TRACE)$/i.test(settings.type) && !this.crossDomain) {
+                        xhr.setRequestHeader("X-CSRFToken", csrftoken)
+                    }
+                }
+            });
+            var ses="SPADMIN";
+         $('#orgtbl').DataTable({
+                   "serverSide": false,
+                   "fixedheader":true,
+                     "language": {
+                        search: "_INPUT_",
+                        searchPlaceholder: "Search Player Here ..",
+                        processing: '<i class="fa fa-spinner fa-pulse " ></i>'
+                    },
+                    "destroy": true,
+                    "searching": true,
+                    "ordering": true,
+                    "scrollX": true,
+                    "processing": true,
+                    "ajax" : {
+                        "url" : "orgtable",
+                        "type": 'GET',
+                        dataSrc : function (json) {
+                            $('#orgtbl').show();
+                              if(json.status == "pass"){
+
+                                return json.data;
+                                }
+                                else{
+                                     return [];
+        
+                                }
+                            },
+               "xhrFields": {
+                    "withCredentials": true
+                     },
+                    },
+                    "columns" : [
+                    {
+                        "data" :'orgid'
+                    },
+                    {
+                        "data" : "Organizationname"
+                    },
+                    {
+                        "data" : "city"
+                    },
+                    {
+                        "data" : "state"
+                    },
+                    {
+                        "data" : "userlimit"
+                    }, 
+                    {
+                        "data" : "Action"
+                    }
+                    ],             
+                    'columnDefs': [
+                       {
+                        'targets': [0],
+                        'visible': false,
+    
+                        },
+                        {
+                        'targets': [-1],
+                        'render' : function(){
+                            if(ses !=''){
+                                if(ses == "SPADMIN"){
+                                    return '<i><select name="values" id="ope"><option value="">Select</option><option value="Repolist">Repo list</option><option value="alluser">View all users</option></select></i>'
+                                }
+                                
+                            }
+                            else{
+                                return table.columns( [-1] ).visible( false );
+                            }
+                        }
+                    
+                    }],
+                        "fnCreatedRow": function (nRow, aData, iDataIndex) {
+                    $(nRow).children("td").css("overflow", "hidden");
+        
+        
+                    $(nRow).children("td").css("white-space", "nowrap");
+                    $(nRow).children("td").css("text-overflow", "ellipsis");
+                },
+                });
+                $('#organizationtable').wrap('<div class="dataTables_scroll" />');
+        }
+</script>

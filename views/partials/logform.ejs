@@ -1,0 +1,67 @@
+<style>
+    .vertical-center{
+        margin-top: 8%;
+    }
+</style>
+<body>
+    <div class="jumbotron vertical-center container">
+        <h1>Login</h1>
+        <form id="logform">
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email">
+            </div>
+            <div class="form-group">
+              <label for="Password">Password</label>
+              <input type="text" class="form-control" aria-describedby="" name="password"  id="password" placeholder="Enter your password">
+            </div>
+            <button type="button" id="submit" class="btn btn-primary">Submit</button>
+          </form>
+    </div>
+</body>
+<script>
+  var token;
+  $('#submit').on('click',function(){
+  var form_data = $("#logform").serializeArray();
+    console.log(form_data);
+    $.ajaxSetup({
+      beforeSend: function (xhr, settings) {
+          if (!/^(GET|HEAD|OPTIONS|TRACE)$/i.test(settings.type) && !this.crossDomain) {
+              xhr.setRequestHeader("X-CSRFToken", form_data._csrf)
+          }
+      }
+    });
+  $.ajax({
+      url:'/l/login',
+      type:'post',
+      data:form_data,
+      success:function(data){
+        if(data.accesstoken!="" && data.role=="admin"){
+          window.location.href='/';
+          localStorage.setItem('token', data.accesstoken);
+          localStorage.setItem('role', data.role);
+          console.log(localStorage.getItem('token'));
+          console.log(localStorage.getItem('role'));
+          alert('Login successfully')
+        }
+        else if(data.accesstoken!="" && data.role=="org"){
+          window.location.href='/orglogin';
+          localStorage.setItem('token', data.accesstoken);
+          localStorage.setItem('role', data.role);
+          console.log(localStorage.getItem('token'));
+          console.log(localStorage.getItem('role'));
+          alert('Login successfully')
+        }
+        else if(data.accesstoken!="" && data.role=="user"){
+          window.location.href='/user';
+          localStorage.setItem('token', data.accesstoken);
+          localStorage.setItem('role', data.role);
+          console.log(localStorage.getItem('token'));
+          console.log(localStorage.getItem('role'));
+          alert('Login successfully')
+        }
+      }
+      
+  })
+})
+</script>

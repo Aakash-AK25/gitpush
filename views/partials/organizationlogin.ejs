@@ -1,0 +1,381 @@
+<head>
+    <style>
+        #usercard{
+            margin-left:5%;
+            margin-right:5%;
+            margin-top: 5%;
+        }
+        #tablecard{
+            margin-left:5%;
+            margin-right:5%;
+            margin-top: 5%;
+        }
+        #tableusercard{
+            margin-left:5%;
+            margin-right:5%;
+            margin-top: 5%;
+        }
+    </style>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
+    </head>
+    <body>  
+        <div class="row">
+             <div class="col-2 col-md-2" style="border: 2px solid black;height:850px;padding:0%">
+              <div class="text-center" id="repolist" style="padding:10%;display:none;background-color:beige">
+                Repo list
+              </div>
+              <div class="text-center" id="userlist" style="padding:10%;background-color:beige">
+                User list
+              </div>
+             </div>
+             <div class="col-10"> 
+                 <div id="clonecard" style="display: none;">
+                    <%- include('clonefile');%>
+                 </div>
+                <div class="card" id="usercard" style="display: none;">
+    
+                    <div class="card-header ">User Creation<i class="fa fa-times float-right editclose" id ="editclose" aria-hidden="true" style="font-size:30px;color:red;">
+              
+                    </i></a></div>
+                    <div class="card-body">
+                    <form id="userform">
+                      <div class="row">
+                      <div class="col-md-6 col-sm-12 col-lg-6">
+                        <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                          <div class="form-group">
+                            <label for="name">Name</label>
+                                 <input type="text" class="form-control" id="name" name="Name" placeholder="Enter name"> 
+                          </div>
+                        </div>
+                        <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                          <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="text" class="form-control" id="email" name="email" placeholder="Enter email">
+                          </div>
+                        </div>
+                        <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                            <div class="form-group">
+                              <label for="phone">Mobile No</label>
+                              <input type="text" class="form-control" id="phone" name="phone" placeholder="Enter phone">
+                            </div>
+                          </div>
+                          <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                          <button type="button" class="btn btn-primary" id="submit">Submit</button>
+                        </div>
+                    </div>
+                      <div class="col-md-6 col-sm-12 col-lg-6">
+                        <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                          <div class="form-group">
+                            <label for="password">password</label>
+                            <input type="text" class="form-control" id="password" name="password" placeholder="Enter Password">
+                          </div>
+                        </div>
+                        <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                          <div class="form-group">
+                            <label for="Is_Active">Is_Active</label>
+                            <input type="checkbox" id="Is_Active" name="Is_Active" value="1">
+                          </div>
+                        </div>
+                        <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                          <div class="form-group">
+                            <label for="Is_Admin">Is_Admin</label>
+                            <input type="checkbox" id="role" name="role" value="2">
+                          </div>
+                        </div>
+                        <div class="form-group">
+                            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                          </div>
+                          </div>
+            </div>
+        </form>
+        </div>
+        </div>
+        <div class="card" id="tablecard" style="border: none;">
+          <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+            <button class="text-center btn btn-primary pull-right" id="clonerepo"  style="margin-bottom:2%;">
+              Clone Repo
+            </button>
+          </div>
+          <div class="card-header ">Repo list
+    
+          </i></a></div>
+          <div class="card-body">
+                <div class="col-md-12 col-sm-12 col-lg-12">
+                <div id="repotable" style="border: 2px solid white;">
+                    <table class="display responsive table-striped table-bordered table-xs" cellspacing="0"
+                           style="width:100%;" id="repotbl">
+                        <thead class="thead-dark bg-color">
+                        <tr class="text-center" style="color:white;background-color:blue;">
+                            <th scope="col">Repo Name</th>
+                            <th scope="col">Created By</th>
+                            <th scope="col">Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+    
+            </div>
+          </div>
+    
+        </div>
+        <div class="card" id="tableusercard" style="display: none;border:none">
+          <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+          <button class="text-center btn btn-primary pull-right" id="usercreate" style="margin-bottom:2%;" >
+            User Creation
+          </button>
+        </div>
+            <div class="card-header ">User list
+      
+            </i></a></div>
+            <div class="card-body">
+                  <div class="col-md-12 col-sm-12 col-lg-12">
+                  <div id="usertable" style="border: 2px solid white;">
+                      <table class="display responsive table-striped table-bordered table-xs" cellspacing="0"
+                             style="width:100%;" id="usertbl">
+                          <thead class="thead-dark bg-color">
+                          <tr class="text-center" style="color:white;background-color:blue;">
+                              <th scope="col">Name</th>
+                              <th scope="col">email</th>
+                              <th scope="col">role</th>
+                          </tr>
+                          </thead>
+                          <tbody>
+                          </tbody>
+                      </table>
+                  </div>
+      
+              </div>
+            </div>
+      
+          </div>
+        </div>
+        </div>
+    </body>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.js"></script>
+    <script>
+      $(document).ready(function(){
+        repoRetrive();
+      })
+      $('#clonerepo').on('click',function(){
+          $('#clonerepo').hide();
+          $('#tablecard').hide();
+          $('#tableusercard').hide();
+          $('#usercard').hide();
+          $('#userlist').show();
+          $('#repolist').show();
+          $('#usercreate').show();
+          $('#clonecard').show();
+      })
+      $('#usercreate').on('click',function(){
+        $('#tablecard').hide();
+        $('#tableusercard').hide();
+        $('#usercard').show();
+        $('#userlist').show();
+        $('#repolist').show();
+        $('#usercreate').hide();
+        $('#clonecard').hide();
+        $('#clonerepo').show();
+      })
+      $('#repolist').on('click',function(){
+        $('#tablecard').show();
+        $('#usercard').hide();
+        $('#tableusercard').hide();
+        $('#usercreate').show();
+        $('#repolist').show();
+        $('#clonecard').hide();
+        $('#clonerepo').show();
+        repoRetrive();
+      })
+      $('#userlist').on('click',function(){
+        $('#tablecard').hide();
+        $('#usercard').hide();
+        $('#userlist').hide();
+        $('#tableusercard').hide();
+        $('#usercreate').show();
+        $('#repolist').show();
+        $('#tableusercard').show();
+        $('#clonecard').hide();
+        $('#clonerepo').show();
+        userRetrive();
+      })
+      $('#editclose').on('click',function(){
+        $('#tablecard').show();
+        $('#usercard').hide();
+        $('#tableusercard').hide();
+        $('#usercreate').show();
+        $('#repolist').hide();
+        $('#clonecard').hide();
+        $('#clonerepo').show();
+        repoRetrive();
+      })
+      $('#submit').on('click',function(){
+        var form_data = $("#userform").serializeArray();
+        console.log(form_data);
+        $.ajaxSetup({
+          beforeSend: function (xhr, settings) {
+              if (!/^(GET|HEAD|OPTIONS|TRACE)$/i.test(settings.type) && !this.crossDomain) {
+                  xhr.setRequestHeader("X-CSRFToken", form_data._csrf)
+              }
+          }
+        });
+        baseurls = "userreg"
+        $.ajax({
+            url: baseurls,
+            type: 'post',
+            dataType:'json',
+            data:form_data,
+            success: function (data) {
+                alert('user created successfully')
+                userRetrive();
+                $('#usercard').hide();
+                $('#tableusercard').show();
+                $('#userlist').hide();
+            }
+            });
+    })
+        function repoRetrive(){
+            $('#repotable').show();
+            $.ajaxSetup({
+                    beforeSend: function (xhr, settings) {
+                        if (!/^(GET|HEAD|OPTIONS|TRACE)$/i.test(settings.type) && !this.crossDomain) {
+                            xhr.setRequestHeader("X-CSRFToken", csrftoken)
+                        }
+                    }
+                });
+                var ses = "SPADMIN"
+             $('#repotbl').DataTable({
+                       "serverSide": false,
+                       "fixedheader":true,
+                         "language": {
+                            search: "_INPUT_",
+                            searchPlaceholder: "Search Player Here ..",
+                            processing: '<i class="fa fa-spinner fa-pulse " ></i>'
+                        },
+                        "destroy": true,
+                        "searching": true,
+                        "ordering": true,
+                        "scrollX": true,
+                        "processing": true,
+                        "ajax" : {
+                            "url" : "repotable",
+                            "type": 'GET',
+                            dataSrc : function (json) {
+                                $('#repotbl').show();
+                                  if(json.status == "pass"){
+                                    return json.Data;
+                                    }
+                                    else{
+                                         return [];
+            
+                                    }
+                                },
+                   "xhrFields": {
+                        "withCredentials": true
+                         },
+                        },
+                        "columns" : [
+                        {
+                            "data" : "reponame"
+                        },
+                        {
+                            "data" : "createdby"
+                        },
+                        {
+                            "data" : "Action"
+                        }
+                        ],
+                                     
+                        'columnDefs': [
+                            {
+                            'targets': [-1],
+                            'render' : function(){
+                                if(ses !=''){
+                                    if(ses == "SPADMIN"){
+                                        return '<i class="fa fa-edit" id="edit" style="margin-right: 16px"  aria-hidden="true"   title="Edit"></i>'+'<i class="fa fa-trash-o" id="delete" style="margin-right: 16px"  aria-hidden="true" title="Delete"></i>'+'<i><button class="btn btn-primary" style="font-size:11px" id="Withdraw1">Withdraw</button></i>'
+                                    }
+                                    
+                                }
+                                else{
+                                    return table.columns( [-1] ).visible( false );
+                                }
+                            }
+                        
+                        }],
+                            "fnCreatedRow": function (nRow, aData, iDataIndex) {
+                        $(nRow).children("td").css("overflow", "hidden");
+            
+            
+                        $(nRow).children("td").css("white-space", "nowrap");
+                        $(nRow).children("td").css("text-overflow", "ellipsis");
+                    },
+                    });
+                    $('#repotable').wrap('<div class="dataTables_scroll" />');
+            }
+            function userRetrive(){
+                $('#usertable').show();
+                var id='1';
+                $.ajaxSetup({
+                        beforeSend: function (xhr, settings) {
+                            if (!/^(GET|HEAD|OPTIONS|TRACE)$/i.test(settings.type) && !this.crossDomain) {
+                                xhr.setRequestHeader("X-CSRFToken", csrftoken)
+                            }
+                        }
+                    });
+                    var ses = " {{ request.session.user }}".trim()
+                 $('#usertbl').DataTable({
+                           "serverSide": false,
+                           "fixedheader":true,
+                             "language": {
+                                search: "_INPUT_",
+                                searchPlaceholder: "Search Player Here ..",
+                                processing: '<i class="fa fa-spinner fa-pulse " ></i>'
+                            },
+                            "destroy": true,
+                            "searching": true,
+                            "ordering": true,
+                            "scrollX": true,
+                            "processing": true,
+                            "ajax" : {
+                                "url" : "usertable/"+id,
+                                "type": 'GET',
+                                dataSrc : function (json) {
+                                    $('#usertbl').show();
+                                      if(json.status == "pass"){
+                                        console.log(json.data)
+                                        return json.data;
+                                        }
+                                        else{
+                                             return [];
+                
+                                        }
+                                    },
+                       "xhrFields": {
+                            "withCredentials": true
+                             },
+                            },
+                            "columns" : [
+                            {
+                                "data" : "Name"
+                            },
+                            {
+                                "data" : "email"
+                            },
+                            {
+                                "data" : "role"
+                            }
+                            ],
+                                         
+                            "fnCreatedRow": function (nRow, aData, iDataIndex) {
+                            $(nRow).children("td").css("overflow", "hidden");
+                
+                
+                            $(nRow).children("td").css("white-space", "nowrap");
+                            $(nRow).children("td").css("text-overflow", "ellipsis");
+                        },
+                        });
+                        $('#usertable').wrap('<div class="dataTables_scroll" />');
+                }
+    </script>
