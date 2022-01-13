@@ -1,16 +1,19 @@
 /*
     DEMO STYLE
 */
-@import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
-
+/* @import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700"; */
+@font-face {
+    font-family:"Name-Of-Font";
+    src: url("Avenir-85-Heavy_5167.ttf") format("truetype");
+}
 
 body {
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Avenir';
     background: #fafafa;
 }
 
 p {
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Avenir';
     font-size: 1.1em;
     font-weight: 300;
     line-height: 1.7em;
@@ -21,6 +24,19 @@ a, a:hover, a:focus {
     color: inherit;
     text-decoration: none;
     transition: all 0.3s;
+}
+#create{
+    margin-top:3%;
+    margin-bottom:3%;
+    margin-right:2%;
+}
+
+#url{
+    font-weight: 400;
+    font-size:20px;
+    margin-top:4%;
+    margin-bottom:3%;
+    margin-left:2%;
 }
 
 .navbar {
@@ -44,7 +60,14 @@ a, a:hover, a:focus {
     border-bottom: 1px dashed #ddd;
     margin: 40px 0;
 }
-
+select{
+    background-color: #fff;
+    border: none;
+    border-bottom: 2px solid black;
+}
+option{
+    background-color: #fff;
+}
 /* ---------------------------------------------------
     SIDEBAR STYLE
 ----------------------------------------------------- */
@@ -66,7 +89,7 @@ a, a:hover, a:focus {
 }
 
 #sidebar .sidebar-header {
-    padding: 30px;
+    padding: 20px;
     background: #6d7fcc;
 }
 
@@ -94,13 +117,30 @@ a, a:hover, a:focus {
     color: #fff;
     background: #6d7fcc;
 }
-
+.log ul li.active > a, a[aria-expanded="true"] {
+    color: #fff;
+    background: #fff;
+}
 
 a[data-toggle="collapse"] {
     position: relative;
 }
 
-a[aria-expanded="false"]::before, a[aria-expanded="true"]::before {
+#loader {
+    position: fixed;
+    height: 100%; 
+    width: 100%; 
+    display: flex;
+    justify-content: center;
+    top:0;
+    left:0;
+    background: rgba(0, 0, 0, 0.3); 
+    z-index:9999;
+  }
+#loader img{
+    width:50%;
+}
+/* a[aria-expanded="false"]::before, a[aria-expanded="true"]::before {
     content: '\e259';
     display: block;
     position: absolute;
@@ -110,15 +150,24 @@ a[aria-expanded="false"]::before, a[aria-expanded="true"]::before {
 }
 a[aria-expanded="true"]::before {
     content: '\e260';
+} */
+th{
+    text-align: center;
 }
-
-
+.dataTables_scrollHeadInner, .display{
+    width:100%!important
+};
 ul ul a {
     font-size: 0.9em !important;
     padding-left: 30px !important;
     background: #6d7fcc;
 }
-
+.card{
+    border: #fff;
+    /* box-shadow: 2px 4px 7px 1px rgba(0,0,0,0.55);
+-webkit-box-shadow: 2px 4px 7px 1px rgba(0,0,0,0.55);
+-moz-box-shadow: 2px 4px 7px 1px rgba(0,0,0,0.55); */
+}
 ul.CTAs {
     padding: 20px;
 }
@@ -141,7 +190,9 @@ a.article, a.article:hover {
     color: #fff !important;
 }
 
-
+select, option {
+    font-style: normal;
+}
 
 /* ---------------------------------------------------
     CONTENT STYLE

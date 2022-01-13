@@ -9,6 +9,7 @@ const repo = require('./repomodel');
 const organization = require('./orgmodel');
 const accmodel=require('./accesmodel');
 const { validateToken } = require('./authtoken');
+const getError=require('./errors/error_config.json')
 
 login.post('/l/login',(req,res)=>{
     var password=crypto.createHash('sha256').update(req.body.password).digest('base64');
@@ -18,7 +19,19 @@ login.post('/l/login',(req,res)=>{
         }
     }).then((a)=>{
         if(a==null){
-           res.send('user not found')
+           res.send({
+            "session": {
+            "token":"",
+            "validity":"",
+            "specialMessage":""
+        },
+            "data":req.body,
+            "status":{
+            "code":101,
+            "status":getError[101],
+            "message":"User not found"
+            }
+        })
         }
         else if(a.password==password){
             const user={name:a.orgid,id:a.id,role:a.role}
@@ -33,11 +46,35 @@ login.post('/l/login',(req,res)=>{
             }
             const accesstoken=generatetoken(user)
             accmodel.create({accesstoken:accesstoken,userid:a.id}).then(()=>{
-                res.send({'accesstoken':accesstoken,'role':role})
+                res.send({
+                    "session": {
+                    "token":accesstoken.split(".")[1],
+                    "validity":"",
+                    "specialMessage":""
+                },
+                    "data":{'accesstoken':accesstoken,'role':role},
+                    "status":{
+                    "code":200,
+                    "status":getError[0],
+                    "message":"Successfully loggedin"
+                    }
+                })
             })
         }
         else{
-            res.send('Password incorrect');
+            res.send({
+                "session": {
+                "token":"",
+                "validity":"",
+                "specialMessage":""
+            },
+                "data":req.body,
+                "status":{
+                "code":101,
+                "status":getError[101],
+                "message":"password incorrect"
+                }
+            });
         }
     }).catch((error)=>{
         console.log(error);
@@ -66,6 +103,17 @@ login.get('/getname',validateToken,(req,res)=>{
          }
      }).then((a)=>{
          res.send({'orgname':a.Organizationname})
+     })
+})
+
+login.get('/getuname',validateToken,(req,res)=>{
+    var id=req.decoded.id
+     usermodel.findOne({
+         where:{
+             id:id
+         }
+     }).then((a)=>{
+         res.send({'name':a.Name})
      })
 })
 

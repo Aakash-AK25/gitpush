@@ -1,0 +1,21 @@
+{
+    "0": "Success",
+    "101": "User name Password incorrect",
+    "102": "User not tagged to the project",
+    "103": "Internal Server Error",
+    "104": "Not able to Retrieve Projects",
+    "105": "User Inactive",
+    "106": "Your Account Blocked",
+    "107": "Last 3 Passwords can not be reused",
+    "108": "Password Expired. Please reset the Password",
+    "109": "User already has an active session",
+    "110": "session killed, click on Login",
+    "111": "Project Expired",
+    "301": "Session Not Available",
+    "601": "User already exists",
+    "602": "Error creating user. Please try after some time",
+    "701": "Compilation Error",
+    "702": "Screen Shots Not Available",
+    "801": "Unauthorised To Access The End Point",
+    "901":"name already presents"
+}

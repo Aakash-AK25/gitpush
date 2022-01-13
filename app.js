@@ -14,6 +14,8 @@ const crypto = require('crypto');
 
 const pretter = require('./routes/prettier');
 
+const repocl = require('./routes/repoclone');
+
 const auth = require('./routes/auth');
 
 const viewejs = require('./routes/viewejs');
@@ -23,6 +25,8 @@ const orgreg = require('./routes/orgcreation');
 const admincn = require('./routes/adminuser');
 
 const orguser = require('./routes/orguser');
+
+const repoaasign = require('./routes/assignusertable');
 
 app.use(express.static(path.join(__dirname, 'views')))
 // const register = require('./routes/models');
@@ -45,6 +49,7 @@ const { appendFile } = require('fs');
 const { validateToken } = require('./routes/authtoken');
 
 const { getTokenFromHeaders } = require('./routes/authtoken');
+const fs=require('fs');
 
 
 require('dotenv').config();
@@ -64,6 +69,16 @@ app.get('/usertable/:id', (req, res) => {
       orgid: req.params.id
     }
   }).then((usermodel) => {
+    usermodel.forEach( 
+      (user) => { 
+         if (user.role=="2"){
+           user.role='admin'
+         }
+         if(user.role=="3"){
+           user.role="user"
+         }
+      }
+    );
     console.log(usermodel)
     res.json({ 'status': 'pass', 'data': usermodel });
   });
@@ -150,47 +165,51 @@ app.use('/', uploadstorage);
 
 app.use('/', fileeditor);
 
+app.use('/', repocl);
+
 app.use('/', pretter);
 
 app.use('/', orguser);
 
+app.use('/', repoaasign);
+
 app.use('/', viewejs);
-app.get('/clone1', (req, res) => {
-  const path = 'uploads/git'
-  shell.exec('grunt');
-})
-app.get('/clone', (req, res) => {
-  clone('https://github.com/pankeshpatel/ml-web.git', 'uploads/git', 'git', res.send('success'))
-})
-app.get('/push', (req, res) => {
-  push(Path, '', function () {
-    console.log('Done!');
-  });
-  res.send('done')
-})
-app.post('/clone2', (req, res) => {
+// app.get('/clone1', (req, res) => {
+//   const path = 'uploads/git'
+//   shell.exec('grunt');
+// })
+// app.get('/clone', (req, res) => {
+//   clone('https://github.com/pankeshpatel/ml-web.git', 'uploads/git', 'git', res.send('success'))
+// })
+// app.get('/push', (req, res) => {
+//   push(Path, '', function () {
+//     console.log('Done!');
+//   });
+//   res.send('done')
+// })
+// app.post('/clone2', (req, res) => {
 
-  const USER = req.body.USER;
-  const PASS = req.body.PASS;
-  const REPO = req.body.REPO;
-  const remote = `https://${USER}:${PASS}@${REPO}`;
+//   const USER = req.body.USER;
+//   const PASS = req.body.PASS;
+//   const REPO = req.body.REPO;
+//   const remote = `https://${USER}:${PASS}@${REPO}`;
 
-  simplegit(Path).silent(true).clone(remote).then(() => fun()).catch((err) => fun1(err))
-  function fun() {
-    res.status(200).send({
-      "status": "ok",
-      "code": 200,
-      "message": "git clone successfully created"
-    })
-  }
-  function fun1(err) {
-    res.status(500).send({
-      "status": "fail",
-      "code": 500,
-      "message": err.message.fatal
-    });
-  }
-})
+//   simplegit(Path).silent(true).clone(remote).then(() => fun()).catch((err) => fun1(err))
+//   function fun() {
+//     res.status(200).send({
+//       "status": "ok",
+//       "code": 200,
+//       "message": "git clone successfully created"
+//     })
+//   }
+//   function fun1(err) {
+//     res.status(500).send({
+//       "status": "fail",
+//       "code": 500,
+//       "message": err.message.fatal
+//     });
+//   }
+// })
 app.get('/newrepo', (req, res) => {
 
 })
@@ -207,17 +226,17 @@ app.get('/mkdir/:foldername', (req, res) => {
 })
 app.get('/fullpath', (req, res) => {
   var a = fs.readdirSync(Path).map(fileName => {
-    return path.join(Path, fileName)
+    return fileName
   })
   res.send(a)
 })
-app.get('/tree', (req, res) => {
-  const tree = dirTree('uploads/Skin-Disease-Classifier');
-  var str = JSON.stringify(tree);
-  str = str.replace(/\"name\":/g, "\"text\":");
-  str = str.replace(/\"path\":/g, "\"id\":");
-  res.send(JSON.parse(str))
-})
+// app.get('/tree', (req, res) => {
+//   const tree = dirTree('uploads/Skin-Disease-Classifier');
+//   var str = JSON.stringify(tree);
+//   str = str.replace(/\"name\":/g, "\"text\":");
+//   str = str.replace(/\"path\":/g, "\"id\":");
+//   res.send(JSON.parse(str))
+// })
 const options = {
   extensions: ['txt', 'jpg', 'pro', 'java', 'js', 'python', 'xml']
 };

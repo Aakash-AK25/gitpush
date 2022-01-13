@@ -1,59 +1,89 @@
 <style>
-    .vertical-center{
-        margin-top: 8%;
-    }
+  .vertical-center {
+    margin-top: 8%;
+  }
 </style>
+
 <body>
-    <div class="jumbotron vertical-center container">
-        <h1>Login</h1>
-        <form id="logform">
-            <div class="form-group">
-              <label for="email">Email</label>
-              <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email">
-            </div>
-            <div class="form-group">
-              <label for="Password">Password</label>
-              <input type="text" class="form-control" aria-describedby="" name="password"  id="password" placeholder="Enter your password">
-            </div>
-            <button type="button" id="submit" class="btn btn-primary">Submit</button>
-          </form>
-    </div>
+  <div class="jumbotron vertical-center container">
+    <h1>Login</h1>
+    <form id="logform">
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email">
+      </div>
+      <div class="form-group">
+        <label for="Password">Password</label>
+        <input type="text" class="form-control" aria-describedby="" name="password" id="password"
+          placeholder="Enter your password">
+      </div>
+      <button type="button" id="submit" class="btn btn-primary">Submit</button>
+    </form>
+  </div>
 </body>
 <script>
-  var token;
-  $('#submit').on('click',function(){
-  var form_data = $("#logform").serializeArray();
+  var token = localStorage.getItem('token');
+  check();
+  function check() {
+    $.ajax({
+      url: 'token',
+      type: 'get',
+      headers: {
+        authorization: token
+      },
+      success: function (data) {
+        if (data.data.role == '1') {
+          window.location.href = '/Organization';
+        }
+        else if (data.data.role == '2') {
+          window.location.href = '/orglogin';
+        }
+        else if (data.data.role == '3') {
+          console.log('hii')
+          window.location.href = '/userlog';
+        }
+        else {
+          window.location.href = '/login'
+        }
+      }
+    });
+  }
+  $('#submit').on('click', function () {
+    log();
+  })
+  function log() {
+    var form_data = $("#logform").serializeArray();
     console.log(form_data);
     $.ajaxSetup({
       beforeSend: function (xhr, settings) {
-          if (!/^(GET|HEAD|OPTIONS|TRACE)$/i.test(settings.type) && !this.crossDomain) {
-              xhr.setRequestHeader("X-CSRFToken", form_data._csrf)
-          }
+        if (!/^(GET|HEAD|OPTIONS|TRACE)$/i.test(settings.type) && !this.crossDomain) {
+          xhr.setRequestHeader("X-CSRFToken", form_data._csrf)
+        }
       }
     });
-  $.ajax({
-      url:'/l/login',
-      type:'post',
-      data:form_data,
-      success:function(data){
-        if(data.accesstoken!="" && data.role=="admin"){
-          window.location.href='/';
+    $.ajax({
+      url: '/l/login',
+      type: 'post',
+      data: form_data,
+      success: function (data) {
+        if (data.accesstoken != "" && data.role == "admin") {
+          window.location.href = '/Organization';
           localStorage.setItem('token', data.accesstoken);
           localStorage.setItem('role', data.role);
           console.log(localStorage.getItem('token'));
           console.log(localStorage.getItem('role'));
           alert('Login successfully')
         }
-        else if(data.accesstoken!="" && data.role=="org"){
-          window.location.href='/orglogin';
+        else if (data.accesstoken != "" && data.role == "org") {
+          window.location.href = '/orglogin';
           localStorage.setItem('token', data.accesstoken);
           localStorage.setItem('role', data.role);
           console.log(localStorage.getItem('token'));
           console.log(localStorage.getItem('role'));
           alert('Login successfully')
         }
-        else if(data.accesstoken!="" && data.role=="user"){
-          window.location.href='/user';
+        else if (data.accesstoken != "" && data.role == "user") {
+          window.location.href = '/userlog';
           localStorage.setItem('token', data.accesstoken);
           localStorage.setItem('role', data.role);
           console.log(localStorage.getItem('token'));
@@ -61,7 +91,7 @@
           alert('Login successfully')
         }
       }
-      
-  })
-})
+
+    })
+  }
 </script>

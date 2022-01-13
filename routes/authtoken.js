@@ -24,6 +24,7 @@ module.exports={
                    })
                } else {
                    req.decoded = decoded
+                   req.token=token
                    next()
                }
            })

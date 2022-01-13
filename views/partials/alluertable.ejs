@@ -3,6 +3,7 @@
 <head>
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/dataTables.bootstrap4.min.css" />
 </head>
 
 <body>
@@ -10,7 +11,7 @@
         <!-- Sidebar Holder -->
         <nav id="sidebar">
             <div class="sidebar-header">
-                <h1 id="Adminname">Codoid</h1>
+                <h3 id="Admin">MVP</h3>
             </div>
 
             <ul class="list-unstyled components">
@@ -29,20 +30,17 @@
         <!-- Page Content Holder -->
         <div id="content">
 
-            <nav class="navbar navbar-expand-lg navbar-dark bg-ligh">
-                <div class="container-fluid">
-
-                    <div class="navbar-nav mr-auto">
-                        <button type="button" id="sidebarColle" class="btn btn-info navbar-btn">
-                            <i class="glyphicon glyphicon-align-left"></i>
-                        </button>
+            <%- include('adheader') %>
+            <div class="card" id="allusercard">
+                <div class="row">
+                    <div class="col-md-6 col-sm-12 col-lg-6">
+                        <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                            <div class="text-center pull-left" id="url">
+                                Users
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </nav>
-            <div class="card" id="allusercard">
-                <div class="card-header ">All User list
-
-                    </i></a></div>
                 <div class="card-body">
                     <div class="col-md-12 col-sm-12 col-lg-12">
                         <div id="allusertable" style="border: 2px solid white;">
@@ -53,7 +51,7 @@
                                         <th scope="col">id</th>
                                         <th scope="col">Name</th>
                                         <th scope="col">Email</th>
-                                        <th scope="col">role</th>
+                                        <th scope="col">Role</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -73,6 +71,9 @@
     <script type="text/javascript" charset="utf8"
         src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.js"></script>
     <script type="text/javascript">
+        $("#logout").on('click', function () {
+            localStorage.clear();
+         })
         var token = localStorage.getItem('token');
         check();
         function check(){
@@ -84,7 +85,6 @@
                 },
                 success: function (data) {
                     if (data.data != null) {
-                        $('#allusercard').show();
                         orgRetrive();
                     }
                     else {
@@ -94,6 +94,8 @@
             });
         }
         $(document).ready(function () {
+            $('#Adminname').empty()
+            $('#Adminname').append('Admin')
             orgRetrive();
             $('#sidebarCollapse').on('click', function () {
                 $('#sidebar').toggleClass('active');
@@ -113,7 +115,7 @@
                 "fixedheader": true,
                 "language": {
                     search: "_INPUT_",
-                    searchPlaceholder: "Search Player Here ..",
+                    searchPlaceholder: "Search Here ..",
                     processing: '<i class="fa fa-spinner fa-pulse " ></i>'
                 },
                 "destroy": true,

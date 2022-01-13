@@ -1,8 +1,24 @@
 <html>
 
 <head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css" />
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/dataTables.bootstrap4.min.css" />
+    <style type="text/css" media="screen">
+        .filecontainer {
+            width: 100%;
+            height: 900px;
+            overflow: auto;
+        }
+
+        .editor {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            font-size: medium;
+        }
+    </style>
 </head>
 
 <body>
@@ -10,7 +26,7 @@
         <!-- Sidebar Holder -->
         <nav id="sidebar">
             <div class="sidebar-header">
-                <h1 id="Adminname">Codoid</h1>
+                <h3 id="Admin">MVP</h3>
             </div>
 
             <ul class="list-unstyled components">
@@ -29,117 +45,450 @@
         <!-- Page Content Holder -->
         <div id="content">
 
-            <nav class="navbar navbar-expand-lg navbar-dark bg-ligh">
-                <div class="container-fluid">
-
-                    <div class="navbar-nav mr-auto">
-                        <button type="button" id="sidebarColle" class="btn btn-info navbar-btn">
-                            <i class="glyphicon glyphicon-align-left"></i>
-                        </button>
-                    </div>
-                </div>
-            </nav>
-            <div class="card" id="orgtablecard">
-                <div class="col-12 col-sm-12 col-md-12 col-lg-12">
-                    <button class="text-center btn btn-primary pull-right" id="create" style="margin:1%;">
-                        Create Organization
-                    </button>
-                </div>
-                <div class="card-header ">Organization list
-
-                    </i></a></div>
-                <div class="card-body">
-                    <div class="col-md-12 col-sm-12 col-lg-12">
-                        <div id="organizationtable" style="border: 2px solid white;">
-                            <table class="display responsive text-center table-bordered" cellspacing="0"
-                                style="width:100%;" id="orgtbl">
-                                <thead class="thead-dark bg-color">
-                                    <tr class="text-center" style="color:white;background-color:blue;">
-                                        <th scope="col">id</th>
-                                        <th scope="col">Organization Name</th>
-                                        <th scope="col">City</th>
-                                        <th scope="col">State</th>
-                                        <th scope="col">userlimit</th>
-                                        <th scope="col">Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                </tbody>
-                            </table>
-                        </div>
-
-                    </div>
-                </div>
-
-            </div>
-            <div class="card" id="organizationcard" style="display: none;">
-
-                <div class="card-header ">Organization Creation
-
-                    </i></a></div>
-                <div class="card-body">
-                    <form id="organizationform">
-                        <div class="row">
-                            <div class="col-md-6 col-sm-12 col-lg-6">
-                                <div class="col-12 col-sm-12 col-md-12 col-lg-12">
-                                    <div class="form-group">
-                                        <label for="orgname">Organization Name</label>
-                                        <input type="text" class="form-control" id="orgname" name="Organizationname"
-                                            placeholder="Enter name">
-                                    </div>
+            <%- include('adheader') %>
+                <div class="card" id="assignrepotablecard" style="display: none;">
+                    <div class="row">
+                        <div class="col-md-6 col-sm-12 col-lg-6">
+                            <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                                <div class="text-center pull-left" id="url">
+                                    Unassigned
                                 </div>
-                                <div class="col-12 col-sm-12 col-md-12 col-lg-12">
-                                    <div class="form-group">
-                                        <label for="city">City</label>
-                                        <input type="text" class="form-control" id="city" name="city"
-                                            placeholder="Enter city">
+                                <div class="card-body">
+                                    <div class="col-md-12 col-sm-12 col-lg-12">
+                                        <div id="ruunasstable" style="border: 2px solid white;">
+                                            <table class="display responsive text-center table-bordered" cellspacing="0"
+                                                style="width:100%;" id="ruunasstbl">
+                                                <thead class="thead-dark bg-color">
+                                                    <tr class="text-center" style="color:white;background-color:blue;">
+                                                        <th scope="col">id</th>
+                                                        <th scope="col">Name</th>
+                                                        <th scope="col">Action</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                </tbody>
+                                            </table>
+                                        </div>
+
                                     </div>
-                                </div>
-                                <div class="col-12 col-sm-12 col-md-12 col-lg-12">
-                                    <div class="form-group">
-                                        <label for="state">State</label>
-                                        <input type="text" class="form-control" id="state" name="state"
-                                            placeholder="Enter State">
-                                    </div>
-                                </div>
-                                <div class="col-12 col-sm-12 col-md-12 col-lg-12">
-                                    <button type="button" id="submit" class="btn btn-primary">Submit</button>
                                 </div>
                             </div>
-                            <div class="col-md-6 col-sm-12 col-lg-6">
-                                <div class="col-12 col-sm-12 col-md-12 col-lg-12">
-                                    <div class="form-group">
-                                        <label for="address">Address</label>
-                                        <input type="text" class="form-control" id="address" name="address"
-                                            placeholder="Enter address">
+                        </div>
+                        <div class="col-md-6 col-sm-12 col-lg-6">
+                            <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                                <div class="text-center pull-left" id="url">
+                                    Assigned
+                                </div>
+                                <div class="card-body">
+                                    <div class="col-md-12 col-sm-12 col-lg-12">
+                                        <div id="rutable" style="border: 2px solid white;">
+                                            <table class="display responsive text-center table-bordered" cellspacing="0"
+                                                style="width:100%;" id="rutbl">
+                                                <thead class="thead-dark bg-color">
+                                                    <tr class="text-center" style="color:white;background-color:blue;">
+                                                        <th scope="col">id</th>
+                                                        <th scope="col">Name</th>
+                                                        <th scope="col">Action</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                </tbody>
+                                            </table>
+                                        </div>
+
                                     </div>
                                 </div>
-                                <div class="col-12 col-sm-12 col-md-12 col-lg-12">
-                                    <div class="form-group">
-                                        <label for="userlimit">Userlimit</label>
-                                        <input type="text" class="form-control" id="userlimit" name="userlimit"
-                                            placeholder="Enter userlimit">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card" id="usertablecard" style="display: none;">
+                    <div class="row">
+                        <div class="col-md-6 col-sm-12 col-lg-6">
+                            <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                                <div class="text-center pull-left" id="url">
+                                    Users
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-12 col-lg-6">
+                            <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                                <button class="text-center btn btn-primary pull-right" id="createuser">
+                                    Create User
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="col-md-12 col-sm-12 col-lg-12">
+                            <div id="orgusertable" style="border: 2px solid white;">
+                                <table class="display responsive text-center table-bordered" cellspacing="0"
+                                    style="width:100%;" id="orgusertbl">
+                                    <thead class="thead-dark bg-color">
+                                        <tr class="text-center" style="color:white;background-color:blue;">
+                                            <th scope="col">id</th>
+                                            <th scope="col">Name</th>
+                                            <th scope="col">Email</th>
+                                            <th scope="col">Role</th>
+                                            <th scope="col">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+                <div class="card" id="usercard" style="display: none;">
+                    <div class="row">
+                        <div class="col-md-6 col-sm-12 col-lg-6">
+                            <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                                <div class="text-center pull-left" id="url">
+                                    User Creation
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <form id="userform">
+                            <div class="row">
+                                <div class="col-md-6 col-sm-12 col-lg-6">
+                                    <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                                        <div class="form-group">
+                                            <label for="name">Name</label>
+                                            <input type="text" class="form-control" id="name" name="Name"
+                                                placeholder="Enter name">
+                                        </div>
                                     </div>
+                                    <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                                        <div class="form-group">
+                                            <label for="email">Email</label>
+                                            <input type="text" class="form-control" id="email" name="email"
+                                                placeholder="Enter email">
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                                        <div class="form-group">
+                                            <label for="phone">Mobile No</label>
+                                            <input type="text" class="form-control" id="phone" name="phone"
+                                                placeholder="Enter phone">
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                                        <button type="button" class="btn btn-primary" id="submituser">Submit</button>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-sm-12 col-lg-6">
+                                    <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                                        <div class="form-group">
+                                            <label for="password">password</label>
+                                            <input type="text" class="form-control" id="password" name="password"
+                                                placeholder="Enter Password">
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                                        <div class="form-group">
+                                            <label for="Is_Active">Is_Active</label>
+                                            <input type="checkbox" id="Is_Active" name="Is_Active" value="1">
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                                        <div class="form-group">
+                                            <label for="Is_Admin">Is_Admin</label>
+                                            <input type="checkbox" id="role" name="role" value="2">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="hidden" name="orgid" class="form-control" id="orgid">
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div id="loader" style="display: none;"><img src="loader.gif" /></div>
+                <div class="card" id="repotablecard" style="display:none;">
+                    <div class="row">
+                        <div class="col-md-6 col-sm-12 col-lg-6">
+                            <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                                <div class="text-center pull-left" id="url">
+                                    Projects
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-12 col-lg-6">
+                            <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                                <button class="text-center btn btn-primary pull-right" id="createproject">
+                                    Create Project
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="col-md-12 col-sm-12 col-lg-12">
+                            <div id="repotable" style="border: 2px solid white;">
+                                <table class="display responsive text-center table-bordered" cellspacing="0"
+                                    style="width:100%;" id="repotbl">
+                                    <thead class="thead-dark bg-color">
+                                        <tr class="text-center" style="color:white;background-color:blue;">
+                                            <th scope="col">id</th>
+                                            <th scope="col">Project Name</th>
+                                            <th scope="col">Created By</th>
+                                            <th scope="col">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+                <div class="card" id="editorcard" style="display: none;">
+                    <div class="row">
+                        <div class="col-md-3 filecontainer">
+                            <div id="file" class="demo"></div>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="container-fluid editor" id="editor"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card" id="assigntablecard" style="display: none;">
+                    <div class="row">
+                        <div class="col-md-6 col-sm-12 col-lg-6">
+                            <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                                <div class="text-center pull-left" id="url">
+                                    Unassigned
+                                </div>
+                                <div class="card-body">
+                                    <div class="col-md-12 col-sm-12 col-lg-12">
+                                        <div id="repounasstable" style="border: 2px solid white;">
+                                            <table class="display responsive text-center table-bordered" cellspacing="0"
+                                                style="width:100%;" id="repounasstbl">
+                                                <thead class="thead-dark bg-color">
+                                                    <tr class="text-center" style="color:white;background-color:blue;">
+                                                        <th scope="col">id</th>
+                                                        <th scope="col">Name</th>
+                                                        <th scope="col">Action</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                </tbody>
+                                            </table>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-12 col-lg-6">
+                            <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                                <div class="text-center pull-left" id="url">
+                                    Assigned
+                                </div>
+                                <div class="card-body">
+                                    <div class="col-md-12 col-sm-12 col-lg-12">
+                                        <div id="repoasstable" style="border: 2px solid white;">
+                                            <table class="display responsive text-center table-bordered" cellspacing="0"
+                                                style="width:100%;" id="repoasstbl">
+                                                <thead class="thead-dark bg-color">
+                                                    <tr class="text-center" style="color:white;background-color:blue;">
+                                                        <th scope="col">id</th>
+                                                        <th scope="col">Name</th>
+                                                        <th scope="col">Action</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                </tbody>
+                                            </table>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card" id="projectcreatecard" style="display: none;">
+
+                    <div class="row">
+                        <div class="col-md-6 col-sm-12 col-lg-6">
+                            <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                                <div class="text-center pull-left" id="url">
+                                    Project Creation
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <form id="projectcreateform">
+                            <div class="row">
+                                <div class="col-md-6 col-sm-12 col-lg-6">
+                                    <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                                        <div class="form-group">
+                                            <label for="reponame">Repo</label>
+                                            <input type="text" class="form-control" id="reponame" name="REPO"
+                                                placeholder="Enter Repo">
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                                        <div class="form-group">
+                                            <label for="username">Username</label>
+                                            <input type="text" class="form-control" id="username" name="USER"
+                                                placeholder="Enter username">
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                                        <div class="form-group">
+                                            <label for="password">Accesstoken</label>
+                                            <input type="text" class="form-control" id="password" name="PASS"
+                                                placeholder="Enter Accesstoken">
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                                        <button type="button" id="submitproject" class="btn btn-primary">Submit</button>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <input type="hidden" name="orgid" class="form-control" id="orgid1">
                                 </div>
                                 <div class="form-group">
                                     <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                                 </div>
                             </div>
-                        </div>
+                    </div>
                     </form>
                 </div>
-            </div>
+                <div class="card" id="orgtablecard">
+                    <div class="row">
+                        <div class="col-md-6 col-sm-12 col-lg-6">
+                            <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                                <div class="text-center pull-left" id="url">
+                                    Organization
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-12 col-lg-6">
+                            <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                                <button class="text-center btn btn-primary pull-right" id="create">
+                                    Create Organization
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="col-md-12 col-sm-12 col-lg-12">
+                            <div id="organizationtable" style="border: 2px solid white;">
+                                <table class="display responsive text-center table-bordered" cellspacing="0"
+                                    style="width:100%;" id="orgtbl">
+                                    <thead>
+                                        <tr class="text-center" style="color:white;background-color:blue;">
+                                            <th scope="col">id</th>
+                                            <th scope="col">Organization Name</th>
+                                            <th scope="col">City</th>
+                                            <th scope="col">State</th>
+                                            <th scope="col">Userlimit</th>
+                                            <th scope="col">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+                <div class="card" id="organizationcard" style="display: none;">
+                    <div class="row">
+                        <div class="col-md-6 col-sm-12 col-lg-6">
+                            <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                                <div class="text-center pull-left" id="url">
+                                    Organization Creation
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <form id="organizationform">
+                            <div class="row">
+                                <div class="col-md-6 col-sm-12 col-lg-6">
+                                    <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                                        <div class="form-group">
+                                            <label for="orgname">Organization Name</label>
+                                            <input type="text" class="form-control" id="orgname" name="Organizationname"
+                                                placeholder="Enter name">
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                                        <div class="form-group">
+                                            <label for="city">City</label>
+                                            <input type="text" class="form-control" id="city" name="city"
+                                                placeholder="Enter city">
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                                        <div class="form-group">
+                                            <label for="state">State</label>
+                                            <input type="text" class="form-control" id="state" name="state"
+                                                placeholder="Enter State">
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                                        <button type="button" id="submit" class="btn btn-primary">Submit</button>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-sm-12 col-lg-6">
+                                    <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                                        <div class="form-group">
+                                            <label for="address">Address</label>
+                                            <input type="text" class="form-control" id="address" name="address"
+                                                placeholder="Enter address">
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                                        <div class="form-group">
+                                            <label for="userlimit">Userlimit</label>
+                                            <input type="text" class="form-control" id="userlimit" name="userlimit"
+                                                placeholder="Enter userlimit">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
         </div>
     </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.8/ace.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.12/jstree.min.js"
+        integrity="sha512-TGClBy3S4qrWJtzel4qMtXsmM0Y9cap6QwRm3zo1MpVjvIURa90YYz5weeh6nvDGKZf/x3hrl1zzHW/uygftKg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"
         integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13"
         crossorigin="anonymous"></script>
     <script type="text/javascript" charset="utf8"
         src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.js"></script>
     <script type="text/javascript">
+        $("#logout").on('click', function () {
+            localStorage.clear();
+        })
         var token = localStorage.getItem('token');
         check();
-        function check(){
+        function check() {
             $.ajax({
                 url: 'token',
                 type: 'get',
@@ -148,8 +497,6 @@
                 },
                 success: function (data) {
                     if (data.data != null) {
-                        $('#organizationcard').hide();
-                        $('#orgtablecard').show();
                         orgRetrive();
                     }
                     else {
@@ -159,10 +506,106 @@
             });
         }
         $("#create").on('click', function () {
+            check();
             $('#organizationcard').show();
             $('#orgtablecard').hide();
         })
+        $("#createproject").on('click', function () {
+            check();
+            var orgid = $('#projectcreatecard').val();
+            console.log(orgid)
+            $('#orgid1').val(orgid);
+            $('#projectcreatecard').show();
+            $('#repotablecard').hide();
+        })
+        $('#submitproject').on('click', function () {
+            var form_data = $("#projectcreateform").serializeArray();
+            console.log(form_data);
+            var orgid = $('#repotablecard').val();
+            $.ajaxSetup({
+                beforeSend: function (xhr, settings) {
+                    if (!/^(GET|HEAD|OPTIONS|TRACE)$/i.test(settings.type) && !this.crossDomain) {
+                        xhr.setRequestHeader("X-CSRFToken", form_data._csrf)
+                    }
+                }
+            });
+            baseurls = "clone1"
+            $.ajax({
+                url: baseurls,
+                type: 'post',
+                headers: {
+                    authorization: token
+                },
+                dataType: 'json',
+                data: form_data,
+                beforeSend: function () {
+                    $('#loader').show();
+                },
+                complete: function () {
+                    $('#loader').hide();
+                },
+                success: function (data) {
+                    if (data.status != null) {
+                        if (data.status.status == "ok") {
+                            alert(data.status.message)
+                            $('#projectcreatecard').hide();
+                            $('#repotablecard').show();
+                            repoRetrive(orgid)
+                        }
+                        else {
+                            alert(data.status.message)
+
+                        }
+                    }
+                    else {
+                        window.location.href = '/login'
+                    }
+                }
+            });
+        })
+        $("#createuser").on('click', function () {
+            check();
+            $('#usercard').show();
+            var orgid = $('#repotablecard').val();
+            $('#orgid').val(orgid);
+            $('#usertablecard').hide();
+        })
+        $('#submituser').on('click', function () {
+            var form_data = $("#userform").serializeArray();
+            console.log(form_data)
+            var orgid = $('#repotablecard').val();
+            $.ajaxSetup({
+                beforeSend: function (xhr, settings) {
+                    if (!/^(GET|HEAD|OPTIONS|TRACE)$/i.test(settings.type) && !this.crossDomain) {
+                        xhr.setRequestHeader("X-CSRFToken", form_data._csrf)
+                    }
+                }
+            });
+            baseurls = "adminorguserreg"
+            $.ajax({
+                url: baseurls,
+                type: 'post',
+                headers: {
+                    authorization: token
+                },
+                dataType: 'json',
+                data: form_data,
+                success: function (data) {
+                    if (data.data != null) {
+                        alert('User created successfully')
+                        $('#usercard').hide();
+                        $('#usertablecard').show();
+                        orguserRetrive(orgid)
+                    }
+                    else {
+                        window.location.href = '/login'
+                    }
+                }
+            });
+        })
         $(document).ready(function () {
+            $('#Adminname').empty()
+            $('#Adminname').append('Admin')
             orgRetrive();
             $('#sidebarCollapse').on('click', function () {
                 $('#sidebar').toggleClass('active');
@@ -214,18 +657,18 @@
                 "fixedheader": true,
                 "language": {
                     search: "_INPUT_",
-                    searchPlaceholder: "Search Player Here ..",
+                    searchPlaceholder: "Search Here ..",
                     processing: '<i class="fa fa-spinner fa-pulse " ></i>'
                 },
                 "destroy": true,
                 "searching": true,
-                "ordering": true,
+                "ordering": false,
                 "scrollX": true,
                 "processing": true,
                 "ajax": {
                     "url": "orgtable",
                     "type": 'GET',
-                    "headers": {authorization:token},
+                    "headers": { authorization: token },
                     dataSrc: function (json) {
                         if (json.data != null) {
                             $('#orgtbl').show();
@@ -238,8 +681,8 @@
 
                             }
                         }
-                        else{
-                            window.location.href='/login';
+                        else {
+                            window.location.href = '/login';
                         }
                     },
                     "xhrFields": {
@@ -277,7 +720,7 @@
                         'render': function () {
                             if (ses != '') {
                                 if (ses == "SPADMIN") {
-                                    return '<i><select name="values" id="ope"><option value="">Select</option><option value="Repolist">Repo list</option><option value="alluser">View users</option></select></i>'
+                                    return '<i><select name="values" id="ope1"><option value="">Select</option><option value="Repolist">Project list</option><option value="viewuser">User list</option></select></i>'
                                 }
 
                             }
@@ -297,6 +740,806 @@
             });
             $('#organizationtable').wrap('<div class="dataTables_scroll" />');
         }
+        function repoRetrive(orgid) {
+            $.ajaxSetup({
+                beforeSend: function (xhr, settings) {
+                    if (!/^(GET|HEAD|OPTIONS|TRACE)$/i.test(settings.type) && !this.crossDomain) {
+                        xhr.setRequestHeader("X-CSRFToken", csrftoken)
+                    }
+                }
+            });
+            var ses = "SPADMIN";
+            console.log(orgid)
+            $('#repotbl').DataTable({
+                "serverSide": false,
+                "fixedheader": true,
+                "language": {
+                    search: "_INPUT_",
+                    searchPlaceholder: "Search Here ..",
+                    processing: '<i class="fa fa-spinner fa-pulse " ></i>'
+                },
+                "destroy": true,
+                "searching": true,
+                "ordering": true,
+                "scrollX": true,
+                "processing": true,
+                "ajax": {
+                    "url": "orgrepolistable/" + orgid,
+                    "type": 'GET',
+                    "headers": { authorization: token },
+                    dataSrc: function (json) {
+                        if (json.data != null) {
+                            $('#repotbl').show();
+                            if (json.status == "pass") {
+
+                                return json.data;
+                            }
+                            else {
+                                return [];
+
+                            }
+                        }
+                        else {
+                            window.location.href = '/login';
+                        }
+                    },
+                    "xhrFields": {
+                        "withCredentials": true
+                    },
+                },
+                "columns": [
+                    {
+                        "data": 'id'
+                    },
+                    {
+                        "data": "reponame"
+                    },
+                    {
+                        "data": "createdby"
+                    },
+                    {
+                        "data": "Action"
+                    }
+                ],
+                'columnDefs': [
+                    {
+                        'targets': [0],
+                        'visible': false,
+
+                    },
+                    {
+                        'targets': [-1],
+                        'render': function () {
+                            if (ses != '') {
+                                if (ses == "SPADMIN") {
+                                    return '<i><select name="values" id="ope"><option value="">Select</option><option value="editor">View project</option><option value="user">User list</option></select></i>'
+                                }
+
+                            }
+                            else {
+                                return table.columns([-1]).visible(false);
+                            }
+                        }
+
+                    }],
+                "fnCreatedRow": function (nRow, aData, iDataIndex) {
+                    $(nRow).children("td").css("overflow", "hidden");
+
+
+                    $(nRow).children("td").css("white-space", "nowrap");
+                    $(nRow).children("td").css("text-overflow", "ellipsis");
+                },
+            });
+            $('#repotable').wrap('<div class="dataTables_scroll" />');
+        }
+        $(document.body).on("change", "#ope1", function () {
+            var vl = $(this).val();
+            if (vl == "Repolist") {
+                $('#organizationcard').hide();
+                $('#orgtablecard').hide();
+                $('#repotablecard').show();
+                var tr = $(this).closest('tr');
+                var data_task = $('#orgtbl').DataTable().row(tr).data();
+                var orgid = data_task['orgid'];
+                $('#repotablecard').val(orgid);
+                $('#projectcreatecard').val(orgid);
+                repoRetrive(orgid);
+            }
+            if (vl == "viewuser") {
+                $('#organizationcard').hide();
+                $('#orgtablecard').hide();
+                $('#usertablecard').show();
+                var tr = $(this).closest('tr');
+                var data_task = $('#orgtbl').DataTable().row(tr).data();
+                var orgid = data_task['orgid'];
+                $('#repotablecard').val(orgid);
+                orguserRetrive(orgid);
+            }
+        })
+        function unssignretrive(id, orgid) {
+            $.ajaxSetup({
+                beforeSend: function (xhr, settings) {
+                    if (!/^(GET|HEAD|OPTIONS|TRACE)$/i.test(settings.type) && !this.crossDomain) {
+                        xhr.setRequestHeader("X-CSRFToken", csrftoken)
+                    }
+                }
+            });
+            var ses = "SPADMIN";
+            console.log(id, orgid)
+            $('#repounasstbl').DataTable({
+                "serverSide": false,
+                "fixedheader": true,
+                "language": {
+                    search: "_INPUT_",
+                    searchPlaceholder: "Search Here ..",
+                    processing: '<i class="fa fa-spinner fa-pulse " ></i>'
+                },
+                "destroy": true,
+                "searching": true,
+                "ordering": true,
+                "scrollX": true,
+                "processing": true,
+                "ajax": {
+                    "url": "adminrepounasstbl/" + id + "/" + orgid,
+                    "type": 'GET',
+                    "headers": { authorization: token },
+                    dataSrc: function (json) {
+                        if (json.data != null) {
+                            $('#repounasstbl').show();
+                            if (json.status == "pass") {
+
+                                return json.data;
+                            }
+                            else {
+                                return [];
+                            }
+                        }
+                        else {
+                            window.location.href = '/login';
+                        }
+                    },
+                    "xhrFields": {
+                        "withCredentials": true
+                    },
+                },
+                "columns": [
+                    {
+                        "data": 'id'
+                    },
+                    {
+                        "data": "Name"
+                    },
+                    {
+                        "data": "Action"
+                    }
+                ],
+                'columnDefs': [
+                    {
+                        'targets': [0],
+                        'visible': false,
+
+                    },
+                    {
+                        'targets': [-1],
+                        'render': function () {
+                            if (ses != '') {
+                                if (ses == "SPADMIN") {
+                                    return '<i><button class="btn btn-primary" style="font-size:11px" id="add">Add</button></i>'
+                                }
+
+                            }
+                            else {
+                                return table.columns([-1]).visible(false);
+                            }
+                        }
+
+                    }],
+                "fnCreatedRow": function (nRow, aData, iDataIndex) {
+                    $(nRow).children("td").css("overflow", "hidden");
+
+
+                    $(nRow).children("td").css("white-space", "nowrap");
+                    $(nRow).children("td").css("text-overflow", "ellipsis");
+                },
+            });
+            $('#repounasstable').wrap('<div class="dataTables_scroll" />');
+        }
+        function assignretrive(id, orgid) {
+            $.ajaxSetup({
+                beforeSend: function (xhr, settings) {
+                    if (!/^(GET|HEAD|OPTIONS|TRACE)$/i.test(settings.type) && !this.crossDomain) {
+                        xhr.setRequestHeader("X-CSRFToken", csrftoken)
+                    }
+                }
+            });
+            var ses = "SPADMIN";
+            console.log(id, orgid)
+            $('#repoasstbl').DataTable({
+                "serverSide": false,
+                "fixedheader": true,
+                "language": {
+                    search: "_INPUT_",
+                    searchPlaceholder: "Search Here ..",
+                    processing: '<i class="fa fa-spinner fa-pulse " ></i>'
+                },
+                "destroy": true,
+                "searching": true,
+                "ordering": true,
+                "scrollX": true,
+                "processing": true,
+                "ajax": {
+                    "url": "adminrepoasstbl/" + id + "/" + orgid,
+                    "type": 'GET',
+                    "headers": { authorization: token },
+                    dataSrc: function (json) {
+                        if (json.data != null) {
+                            $('#repoasstbl').show();
+                            if (json.status == "pass") {
+
+                                return json.data;
+                            }
+                            else {
+                                return [];
+
+                            }
+                        }
+                        else {
+                            window.location.href = '/login';
+                        }
+                    },
+                    "xhrFields": {
+                        "withCredentials": true
+                    },
+                },
+                "columns": [
+                    {
+                        "data": 'userid'
+                    },
+                    {
+                        "data": "username"
+                    },
+                    {
+                        "data": "Action"
+                    }
+                ],
+                'columnDefs': [
+                    {
+                        'targets': [0],
+                        'visible': false,
+
+                    },
+                    {
+                        'targets': [-1],
+                        'render': function () {
+                            if (ses != '') {
+                                if (ses == "SPADMIN") {
+                                    return '<i><button class="btn btn-primary" style="font-size:11px" id="delete">Delete</button></i>'
+                                }
+
+                            }
+                            else {
+                                return table.columns([-1]).visible(false);
+                            }
+                        }
+
+                    }],
+                "fnCreatedRow": function (nRow, aData, iDataIndex) {
+                    $(nRow).children("td").css("overflow", "hidden");
+
+
+                    $(nRow).children("td").css("white-space", "nowrap");
+                    $(nRow).children("td").css("text-overflow", "ellipsis");
+                },
+            });
+            $('#repoasstable').wrap('<div class="dataTables_scroll" />');
+        }
+        $(document.body).on("change", "#ope", function () {
+            var vl = $(this).val();
+            if (vl == "user") {
+                $('#assigntablecard').show();
+                $('#projectcreatecard').hide();
+                $('#repotablecard').hide();
+                $('#loader').hide();
+                var tr = $(this).closest('tr');
+                var data_task = $('#repotbl').DataTable().row(tr).data();
+                var id = data_task['id'];
+                $('#assigntablecard').val(id);
+                var orgid = $('#repotablecard').val();
+                unssignretrive(id, orgid);
+                assignretrive(id, orgid);
+            }
+            if (vl == "editor") {
+                $('#editorcard').show();
+                $('#assigntablecard').hide();
+                $('#projectcreatecard').hide();
+                $('#repotablecard').hide();
+                $('#loader').hide();
+                var tr = $(this).closest('tr');
+                var data_task = $('#repotbl').DataTable().row(tr).data();
+                var id = data_task['id'];
+                $('#file').jstree({
+                    "plugins": ["types", 'themes', "html_data", "dnd"],
+                    "types": {
+                        "default": {
+                            "icon": "fa fa-folder text-warning"
+                        },
+                        "file": {
+                            "icon": "fa fa-file greencolor"
+                        }
+                    },
+                    'core': {
+                        "check_callback": true,
+                        'themes': {
+                            'dots': false,
+                            'icons': true,
+                            "responsive": false
+                        },
+                        'data': {
+                            'url': "tree1/" + id,
+                            'type': 'GET',
+                            'dataType': 'JSON',
+                            'contentType': 'application/json',
+                            'data': function (data) {
+                                return { data };
+                            },
+                        }
+                    }
+                });
+                var editor = ace.edit("editor");
+                editor.setTheme("ace/theme/terminal");
+                $('#file').on("select_node.jstree", function (e, data) {
+                    str = data.node.id
+                    ext = data.node.text
+                    var test = ext.match(/(.+)\.(.+)/);
+                    str = str.replace(/[\/\\]/g, '^');
+                    if (test[2] != "") {
+                        editor.getSession().setMode("ace/mode/" + test[2]);
+                        console.log("ace/mode/" + test[2])
+                    }
+                    else {
+                        editor.getSession().setMode("ace/mode/python");
+                    }
+                    $.ajax({
+                        type: 'GET',
+                        url: 'fileread/' + str,
+                        success: function (data) {
+                            console.log('success');
+                            editor.setValue(data)
+                        }
+                    });
+                });
+            }
+        });
+        $(document.body).on("click", "#delete", function () {
+            var form_data = $("#projectcreateform").serializeArray();
+            var tr = $(this).closest('tr');
+            var data_task = $('#repoasstbl').DataTable().row(tr).data();
+            var id = data_task['userid'];
+            console.log(id)
+            var username = data_task['username'];
+            var repoid = $('#assigntablecard').val();
+            var orgid = $('#repotablecard').val();
+            console.log(repoid)
+            $.ajaxSetup({
+                beforeSend: function (xhr, settings) {
+                    if (!/^(GET|HEAD|OPTIONS|TRACE)$/i.test(settings.type) && !this.crossDomain) {
+                        xhr.setRequestHeader("X-CSRFToken", form_data._csrf)
+                    }
+                }
+            });
+            baseurls = "admindeleteassing/" + repoid + "/" + id
+            $.ajax({
+                url: baseurls,
+                type: 'delete',
+                headers: {
+                    authorization: token
+                },
+                success: function (data) {
+                    if (data.data != null) {
+                        unssignretrive(repoid, orgid);
+                        assignretrive(repoid, orgid);
+                    }
+                    else {
+                        alert(data.status.message)
+
+                    }
+                }
+            });
+        });
+        $(document.body).on("click", "#add", function () {
+            var form_data = $("#projectcreateform").serializeArray();
+            var tr = $(this).closest('tr');
+            var data_task = $('#repounasstbl').DataTable().row(tr).data();
+            var id = data_task['id'];
+            var username = data_task['Name'];
+            var orgid = $('#repotablecard').val();
+            var repoid = $('#assigntablecard').val();
+            $.ajaxSetup({
+                beforeSend: function (xhr, settings) {
+                    if (!/^(GET|HEAD|OPTIONS|TRACE)$/i.test(settings.type) && !this.crossDomain) {
+                        xhr.setRequestHeader("X-CSRFToken", form_data._csrf)
+                    }
+                }
+            });
+            baseurls = "adminadassing"
+            $.ajax({
+                url: baseurls,
+                type: 'post',
+                headers: {
+                    authorization: token
+                },
+                dataType: 'json',
+                data: { 'userid': id, 'repoid': repoid, 'username': username, 'orgid': orgid },
+                success: function (data) {
+                    if (data.data != null) {
+                        unssignretrive(repoid, orgid);
+                        assignretrive(repoid, orgid);
+                    }
+                    else {
+                        alert(data.status.message)
+
+                    }
+                }
+            });
+        });
+        function orguserRetrive(orgid) {
+            $.ajaxSetup({
+                beforeSend: function (xhr, settings) {
+                    if (!/^(GET|HEAD|OPTIONS|TRACE)$/i.test(settings.type) && !this.crossDomain) {
+                        xhr.setRequestHeader("X-CSRFToken", csrftoken)
+                    }
+                }
+            });
+            var ses = "SPADMIN";
+            $('#orgusertbl').DataTable({
+                "serverSide": false,
+                "fixedheader": true,
+                "language": {
+                    search: "_INPUT_",
+                    searchPlaceholder: "Search Player Here ..",
+                    processing: '<i class="fa fa-spinner fa-pulse " ></i>'
+                },
+                "destroy": true,
+                "searching": true,
+                "ordering": true,
+                "scrollX": true,
+                "processing": true,
+                "ajax": {
+                    "url": "adminusertable/" + orgid,
+                    "type": 'GET',
+                    "headers": { authorization: token },
+                    dataSrc: function (json) {
+                        if (json.data != null) {
+                            $('#orgusertbl').show();
+                            if (json.status == "pass") {
+
+                                return json.data;
+                            }
+                            else {
+                                return [];
+
+                            }
+                        }
+                        else {
+                            window.location.href = '/login';
+                        }
+                    },
+                    "xhrFields": {
+                        "withCredentials": true
+                    },
+                },
+                "columns": [
+                    {
+                        "data": 'id'
+                    },
+                    {
+                        "data": "Name"
+                    },
+                    {
+                        "data": "email"
+                    },
+                    {
+                        "data": "role"
+                    },
+                    {
+                        "data": "Action"
+                    }
+                ],
+                'columnDefs': [
+                    {
+                        'targets': [0],
+                        'visible': false,
+
+                    },
+                    {
+                        'targets': [-1],
+                        'render': function () {
+                            if (ses != '') {
+                                if (ses == "SPADMIN") {
+                                    return '<i><select name="values" id="opt"><option value="">Select</option><option value="Repolist">Project list</option></select></i>'
+                                }
+
+                            }
+                            else {
+                                return table.columns([-1]).visible(false);
+                            }
+                        }
+
+                    }],
+                "fnCreatedRow": function (nRow, aData, iDataIndex) {
+                    $(nRow).children("td").css("overflow", "hidden");
+
+
+                    $(nRow).children("td").css("white-space", "nowrap");
+                    $(nRow).children("td").css("text-overflow", "ellipsis");
+                },
+            });
+            $('#orgusertable').wrap('<div class="dataTables_scroll" />');
+        }
+        $(document.body).on("change", "#opt", function () {
+            var vl = $(this).val();
+            if (vl == "Repolist") {
+                $('#assignrepotablecard').show();
+                $('#usercard').hide();
+                $('#usertablecard').hide();
+                $('#loader').hide();
+                var tr = $(this).closest('tr');
+                var data_task = $('#orgusertbl').DataTable().row(tr).data();
+                var id = data_task['id'];
+                $('#assignrepotablecard').val(id);
+                var orgid = $('#repotablecard').val();
+                console.log(id)
+                console.log(orgid)
+                ignreporetrive(id, orgid);
+                assignreporetrive(id, orgid);
+            }
+        })
+        function ignreporetrive(id, orgid) {
+            $.ajaxSetup({
+                beforeSend: function (xhr, settings) {
+                    if (!/^(GET|HEAD|OPTIONS|TRACE)$/i.test(settings.type) && !this.crossDomain) {
+                        xhr.setRequestHeader("X-CSRFToken", csrftoken)
+                    }
+                }
+            });
+            var ses = "SPADMIN";
+            console.log(orgid);
+            $('#ruunasstbl').DataTable({
+                "serverSide": false,
+                "fixedheader": true,
+                "language": {
+                    search: "_INPUT_",
+                    searchPlaceholder: "Search Here ..",
+                    processing: '<i class="fa fa-spinner fa-pulse " ></i>'
+                },
+                "destroy": true,
+                "searching": true,
+                "ordering": true,
+                "scrollX": true,
+                "processing": true,
+                "ajax": {
+                    "url": "adminuserunasstbl/" + id + "/" + orgid,
+                    "type": 'GET',
+                    "headers": { authorization: token },
+                    dataSrc: function (json) {
+                        if (json.data != null) {
+                            $('#ruunasstbl').show();
+                            if (json.status == "pass") {
+                                return json.data;
+                            }
+                            else {
+                                return [];
+                            }
+                        }
+                        else {
+                            window.location.href = '/login';
+                        }
+                    },
+                    "xhrFields": {
+                        "withCredentials": true
+                    },
+                },
+                "columns": [
+                    {
+                        "data": 'id'
+                    },
+                    {
+                        "data": "reponame"
+                    },
+                    {
+                        "data": "Action"
+                    }
+                ],
+                'columnDefs': [
+                    {
+                        'targets': [0],
+                        'visible': false,
+
+                    },
+                    {
+                        'targets': [-1],
+                        'render': function () {
+                            if (ses != '') {
+                                if (ses == "SPADMIN") {
+                                    return '<i><button class="btn btn-primary" style="font-size:11px" id="add1">Add</button></i>'
+                                }
+
+                            }
+                            else {
+                                return table.columns([-1]).visible(false);
+                            }
+                        }
+
+                    }],
+                "fnCreatedRow": function (nRow, aData, iDataIndex) {
+                    $(nRow).children("td").css("overflow", "hidden");
+
+
+                    $(nRow).children("td").css("white-space", "nowrap");
+                    $(nRow).children("td").css("text-overflow", "ellipsis");
+                },
+            });
+            $('#ruunasstable').wrap('<div class="dataTables_scroll" />');
+        }
+        function assignreporetrive(id, orgid) {
+            $.ajaxSetup({
+                beforeSend: function (xhr, settings) {
+                    if (!/^(GET|HEAD|OPTIONS|TRACE)$/i.test(settings.type) && !this.crossDomain) {
+                        xhr.setRequestHeader("X-CSRFToken", csrftoken)
+                    }
+                }
+            });
+            var ses = "SPADMIN";
+            $('#rutbl').DataTable({
+                "serverSide": false,
+                "fixedheader": true,
+                "language": {
+                    search: "_INPUT_",
+                    searchPlaceholder: "Search Here ..",
+                    processing: '<i class="fa fa-spinner fa-pulse " ></i>'
+                },
+                "destroy": true,
+                "searching": true,
+                "ordering": true,
+                "scrollX": true,
+                "processing": true,
+                "ajax": {
+                    "url": "adminuserasstbl/" + id + "/" + orgid,
+                    "type": 'GET',
+                    "headers": { authorization: token },
+                    dataSrc: function (json) {
+                        if (json.data != null) {
+                            $('#rutbl').show();
+                            if (json.status == "pass") {
+
+                                return json.data;
+                            }
+                            else {
+                                return [];
+
+                            }
+                        }
+                        else {
+                            window.location.href = '/login';
+                        }
+                    },
+                    "xhrFields": {
+                        "withCredentials": true
+                    },
+                },
+                "columns": [
+                    {
+                        "data": 'id'
+                    },
+                    {
+                        "data": "reponame"
+                    },
+                    {
+                        "data": "Action"
+                    }
+                ],
+                'columnDefs': [
+                    {
+                        'targets': [0],
+                        'visible': false,
+
+                    },
+                    {
+                        'targets': [-1],
+                        'render': function () {
+                            if (ses != '') {
+                                if (ses == "SPADMIN") {
+                                    return '<i><button class="btn btn-primary" style="font-size:11px" id="delete1">Delete</button></i>'
+                                }
+
+                            }
+                            else {
+                                return table.columns([-1]).visible(false);
+                            }
+                        }
+
+                    }],
+                "fnCreatedRow": function (nRow, aData, iDataIndex) {
+                    $(nRow).children("td").css("overflow", "hidden");
+
+
+                    $(nRow).children("td").css("white-space", "nowrap");
+                    $(nRow).children("td").css("text-overflow", "ellipsis");
+                },
+            });
+            $('#rutable').wrap('<div class="dataTables_scroll" />');
+        }
+        $(document.body).on("click", "#delete1", function () {
+            var form_data = $("#userform").serializeArray();
+            var tr = $(this).closest('tr');
+            var data_task = $('#rutbl').DataTable().row(tr).data();
+            var repoid = data_task['id'];
+            console.log(repoid)
+            var userid = $('#assignrepotablecard').val();
+            var orgid = $('#repotablecard').val();
+            console.log(repoid)
+            $.ajaxSetup({
+                beforeSend: function (xhr, settings) {
+                    if (!/^(GET|HEAD|OPTIONS|TRACE)$/i.test(settings.type) && !this.crossDomain) {
+                        xhr.setRequestHeader("X-CSRFToken", form_data._csrf)
+                    }
+                }
+            });
+            baseurls = "deleteassing/" + repoid + "/" + userid
+            $.ajax({
+                url: baseurls,
+                type: 'delete',
+                headers: {
+                    authorization: token
+                },
+                success: function (data) {
+                    if (data.data != null) {
+                        ignreporetrive(userid, orgid);
+                        assignreporetrive(userid, orgid);
+                    }
+                    else {
+                        alert('hii')
+                        alert(data.status.message)
+
+                    }
+                }
+            });
+        });
+        $(document.body).on("click", "#add1", function () {
+            var form_data = $("#userform").serializeArray();
+            var tr = $(this).closest('tr');
+            var data_task = $('#ruunasstbl').DataTable().row(tr).data();
+            var repoid = data_task['id'];
+            var userid = $('#assignrepotablecard').val();
+            var orgid = $('#repotablecard').val();
+            $.ajaxSetup({
+                beforeSend: function (xhr, settings) {
+                    if (!/^(GET|HEAD|OPTIONS|TRACE)$/i.test(settings.type) && !this.crossDomain) {
+                        xhr.setRequestHeader("X-CSRFToken", form_data._csrf)
+                    }
+                }
+            });
+            baseurls = "adminrepoadassing"
+            $.ajax({
+                url: baseurls,
+                type: 'post',
+                headers: {
+                    authorization: token
+                },
+                dataType: 'json',
+                data: { 'userid': userid, 'repoid': repoid, 'orgid': orgid },
+                success: function (data) {
+                    if (data.data != null) {
+                        ignreporetrive(userid, orgid);
+                        assignreporetrive(userid, orgid);
+                    }
+                    else {
+                        alert(data.status.message)
+
+                    }
+                }
+            });
+        });
     </script>
 </body>
 
